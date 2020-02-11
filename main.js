@@ -1,21 +1,27 @@
 // setup canvas
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
+
 const scoreText = document.getElementById("score-text");
 const inputText = document.getElementById("input-text");
 const snakeLengthText = document.getElementById("snake-length-text");
 
-const width = canvas.width = 600;
+const width = canvas.width = 800;
 const height = canvas.height = 600;
+document.getElementById("canvas-container").style.minWidth = width + 50 + "px";
+document.getElementById("canvas-container").style.minHeight = height + 25 + "px";
+
 canvas.style.left = "25px";
 canvas.style.position = "relative";
+canvas
 
-const cellSize = 20; //cell size in pixels
+const cellSize = 25; //cell size in pixels
 const cellsX = width / cellSize;
 const cellsY = height / cellSize;
 const numCells = cellsX * cellsY;
 
 let gameInstance;
+let cellsPerSecond = 0;
 let openCells = numCells;
 let startPos = new Vector2(Math.ceil((cellsX - 1) / 2), Math.ceil((cellsY - 1) / 2));
 let boardCellsRep = [];
@@ -117,7 +123,8 @@ Game.prototype.detectCollisions = function () {
     if (this.playerSnake.segments[0].x == this.food.position.x && this.playerSnake.segments[0].y == this.food.position.y) {
         this.score++;
         this.speedUp(this.speedUpStep);
-        scoreText.innerHTML = "Score: " + this.score.toString();
+        cellsPerSecond = 1000 / this.gameSpeed
+        scoreText.innerText = "Score: " + this.score.toString();
         this.playerSnake.segmentQueue += 5;
         this.food.position = this.getNewFoodPos();
     }
@@ -164,7 +171,7 @@ Snake.prototype.draw = function () {
 
 Snake.prototype.update = function () {
     let tmpLast = new Vector2(this.segments[this.segments.length - 1].x, this.segments[this.segments.length - 1].y);
-    inputText.innerHTML = "Input Queue: " + inputQueue.length;
+    inputText.innerText = "Input Queue: " + inputQueue.length;
 
     if (inputQueue.length != 0) {
         this.direction = inputQueue[0];
@@ -185,7 +192,7 @@ Snake.prototype.update = function () {
     }
     if (this.segmentQueue > 0) {
         this.segments.push(new SnakeSegment(tmpLast.x, tmpLast.y, 'rgb(0, 255, 255)', 'rgb(0,255,255)'));
-        snakeLengthText.innerHTML = "Snake Length: " + this.segments.length;
+        snakeLengthText.innerText = "Snake Length: " + this.segments.length;
         openCells--;
         this.segmentQueue--;
     }

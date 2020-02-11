@@ -28,9 +28,18 @@
     text-shadow: 0 0 4px white;
   }
 
-  .ui-text, .length-text{
-    color: white;
+  table{
+    width: 100%;
+    padding: 0px;
   }
+
+  td{
+    padding: 0;
+  }
+
+  /* .ui-text, .length-text{
+    color: white;
+  } */
 
   
   .header{
@@ -48,44 +57,40 @@
 
   .left{
     flex: auto;
-    /* float: left; */
-    /* width: auto; */
   }
 
   .right{
     flex: auto;
-    /* float: right; */
-    /* width: auto; */
   }
 
   .middle{
     flex-shrink: 0;
-    flex-basis: 1050px;
+    /* flex-basis: 1050px; */
     border-radius: 10px;
     /* flex-direction: column; */
     background-color: rgb(77, 94, 124);
 
   }
 
-  .middle-top{
-    display: inline;
+  .middle-top{   
+    width: 100%;
+    padding: 20px 0px 5px 0px;
+  }
+
+  .score-text{
+    width: 33.3%;
+    padding-left: 25px;
   }
 
   .input-count-text{
-    display: inline-block;
-    padding-left: 350px;
+    width: 33.3%;
     text-align: center;
   }
 
   .length-text{
-    /* display: inline-block; */
+    width: 33.3%;
+    text-align: right;
     padding-right: 25px;
-    float: inline-end;
-  }
-
-  .score-text{
-    padding-left: 25px;
-    display: inline-block;
   }
 
   .row{
@@ -95,22 +100,24 @@
   }
 
   .ui-text{
-    /* padding-left: 25px; */
+    font-size: 1.17em;
+    font-weight: bold;
+    color: white;
     text-shadow: 1px 1px 2px black;
-    /* margin: 10; */
+    margin: 0px;
   }
 
   .canvas-container{
-    min-width: 1050px;
-    min-height: 825px;
+    /* min-width: 1050px;
+    min-height: 825px; */
+    min-width: 650; 
+    /*min-height: 825px; */
   }
 
   .footer{
     height: 10%;
-    /* padding: 20px; */
     text-align: center;
     background: rgb(75,75,75);
-    /* margin-top: 20px; */
   }
 
   .footer-text{

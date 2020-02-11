@@ -20,15 +20,23 @@
             <div class="left">
             </div>
 
-            <div class="middle">
+            <div id = "middle" class="middle">
                 <div class="middle-top">
-                    <span>
-                    <h3 id="score-text" class="ui-text score-text">Score: 0</h3>
-                    <h3 id="input-text" class="ui-text input-count-text">Input Queue: 0</h3>
-                    <h3 id="snake-length-text" class="ui-text length-text">Snake Length: 5</h3>
-                    </span>
+                    <table>
+                    <tr>
+                        <td class="score-text">
+                            <p id="score-text" class="ui-text">Score: 0</p>
+                        </td>
+                        <td class="input-count-text">
+                            <p id="input-text" class="ui-text">Input Queue: 0</p>
+                        </td>
+                        <td class="length-text">
+                            <p id="snake-length-text" class="ui-text">Snake Length: 5</p>
+                        </td>
+                    </tr>
+                    </table>              
                 </div>
-                <div class="canvas-container">
+                <div id = "canvas-container" class="canvas-container">
                     <canvas class="main-canvas"></canvas>
                     
                     <div id="gameover-popup" class="gameover-popup">
@@ -49,7 +57,6 @@
             </div>
         </div>
     </div>
-
     <!-- <div class="footer">
         <p class="footer-text">Footer</p>
     </div> -->
