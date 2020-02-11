@@ -5,8 +5,8 @@ const scoreText = document.getElementById("score-text");
 const inputText = document.getElementById("input-text");
 const snakeLengthText = document.getElementById("snake-length-text");
 
-const width = canvas.width = 1000;
-const height = canvas.height = 800;
+const width = canvas.width = 600;
+const height = canvas.height = 600;
 canvas.style.left = "25px";
 canvas.style.position = "relative";
 
