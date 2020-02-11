@@ -15,6 +15,7 @@ const cellsX = width / cellSize;
 const cellsY = height / cellSize;
 const numCells = cellsX * cellsY;
 
+let gameInstance;
 let openCells = numCells;
 let startPos = new Vector2(Math.ceil((cellsX - 1) / 2), Math.ceil((cellsY - 1) / 2));
 let boardCellsRep = [];
@@ -34,6 +35,21 @@ function Vector2(x, y) {
 Vector2.prototype.addTo = function (vector) {
     this.x += vector.x;
     this.y += vector.y;
+}
+
+function GameBoard() {
+    this.boardCellsRep = [];
+    this.cellSize = 20;
+    this.numCellsX = width / this.cellSize;
+    this.numCellsY = height / this.cellSize;
+    this.numCells = this.numCellsX * this.numcellsY;
+}
+
+GameBoard.prototype.initBoard = function(){
+    this.boardCellsRep.length = 0;
+    for (let i = 0; i < numCells; i++) {
+        this.boardCellsRep.push(true);
+    }
 }
 
 function Game(startTime, initialGameSpeed, initialSnakeLength, startPos) {
@@ -57,6 +73,7 @@ function Game(startTime, initialGameSpeed, initialSnakeLength, startPos) {
 }
 
 Game.prototype.initializeGame = function () {
+    console.log("Initialize game");
     boardCellsRep.length = 0;
     for (let i = 0; i < numCells; i++) {
         boardCellsRep.push(true);
@@ -64,6 +81,7 @@ Game.prototype.initializeGame = function () {
     this.score = 0;
     this.playerSnake = new Snake(0, -1, 'rgb(0,255,255)', this.initialSnakeLength, this.startPos);
     this.food = new food(this.getNewFoodPos());
+    isPaused = false;
 }
 
 Game.prototype.gameLoop = function () {
@@ -87,12 +105,13 @@ Game.prototype.gameLoop = function () {
 
 Game.prototype.detectCollisions = function () {
     if (this.playerSnake.segments[0].x < 0 || this.playerSnake.segments[0].x >= cellsX || this.playerSnake.segments[0].y < 0 || this.playerSnake.segments[0].y >= cellsY) {
-        alert("GAME OVER. (You hit the wall)")
-        this.initializeGame();
+        openGameoverPopup("(You hit the wall)");
+        //alert("GAME OVER. (You hit the wall)")
     }
     for (let i = 1; i < this.playerSnake.segments.length; i++) {
         if (this.playerSnake.segments[0].x == this.playerSnake.segments[i].x && this.playerSnake.segments[0].y == this.playerSnake.segments[i].y) {
-            alert("GAME OVER. (You ate your own dang self");
+            openGameoverPopup("(You ate your own dang self)");
+            //alert("GAME OVER. (You ate your own dang self");
         }
     }
     if (this.playerSnake.segments[0].x == this.food.position.x && this.playerSnake.segments[0].y == this.food.position.y) {
@@ -196,34 +215,39 @@ food.prototype.draw = function () {
     ctx.fill();
 }
 
-addEventListener("keydown", function (event) {
+addEventListener("keydown", function (event) { //TODO: disable movement inputs when game is paused
     switch (event.key) {
         case "ArrowRight":
+        case "d":
             AddInput(new Vector2(1, 0));
             break;
         case "ArrowLeft":
+        case "a":
             AddInput(new Vector2(-1, 0));
             break;
         case "ArrowUp":
+        case "w":    
             AddInput(new Vector2(0, -1));
             break;
         case "ArrowDown":
+        case "s":    
             AddInput(new Vector2(0, 1));
             break;
+        case " ":    
         case "p":
             isPaused = !isPaused;
             if (!isPaused) {
-                newGame.gameLoop();
+                gameInstance.gameLoop();
             }
             break;
     }
 })
 
-let newGame = new Game(new Date().getTime(), 150, 4, startPos);
+gameInstance = new Game(new Date().getTime(), 150, 4, startPos);
 
 function AddInput(input) {
-    if (inputQueue.length === 0 && newGame.playerSnake.direction.x != -input.x) {
-        if ((input.x != newGame.playerSnake.direction.x && input.y != newGame.playerSnake.direction.y)) { //doesn't allow inputs that match the current direction
+    if (inputQueue.length === 0 && gameInstance.playerSnake.direction.x != -input.x) {
+        if ((input.x != gameInstance.playerSnake.direction.x && input.y != gameInstance.playerSnake.direction.y)) { //doesn't allow inputs that match the current direction
             inputQueue.push(input);
         }
     }
@@ -232,4 +256,24 @@ function AddInput(input) {
             inputQueue.push(input);
         }
     }
+}
+
+document.getElementById("play-again-btn").onclick = function(){
+    console.log("play again button");
+    isPaused = false;
+    closeGameoverPopup();
+    gameInstance = new Game(new Date().getTime(), 150, 4, startPos);
+}
+
+function openGameoverPopup(message){
+    console.log("open popup");
+    isPaused = true;
+    document.getElementById("gameover-reason").innerText = message;
+    document.getElementById("gameover-popup").style.display  = "block"
+}
+
+function closeGameoverPopup(){
+    console.log("close popup");
+    document.getElementById("gameover-reason").innerText = "Who knows why?";
+    document.getElementById("gameover-popup").style.display  = "none"
 }
