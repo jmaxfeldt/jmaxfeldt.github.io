@@ -88,7 +88,7 @@ Game.prototype.gameLoop = function () {
     let curTime = new Date().getTime();
 
     if (curTime > this.nextUpdate) {
-        ctx.fillStyle = 'rgba(0, 0, 0, .5)'; //creates the black background
+        ctx.fillStyle = 'rgba(0, 0, 0, 1)'; //creates the black background
         ctx.fillRect(0, 0, width, height);
 
         this.food.draw();
