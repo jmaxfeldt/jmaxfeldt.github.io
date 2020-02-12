@@ -13,15 +13,16 @@ document.getElementById("canvas-container").style.minHeight = height + 25 + "px"
 
 canvas.style.left = "25px";
 canvas.style.position = "relative";
-canvas
 
+const gameStates = Object.freeze({ "pregame": 1, "running": 2, "gameover": 3, "paused": 4 });
 const cellSize = 25; //cell size in pixels
 const cellsX = width / cellSize;
 const cellsY = height / cellSize;
 const numCells = cellsX * cellsY;
 
-let gameInstance;
-let cellsPerSecond = 0;
+let gameInstance = null;
+let gameState = gameStates.pregame;
+let cellsPerSecond;
 let openCells = numCells;
 let startPos = new Vector2(Math.ceil((cellsX - 1) / 2), Math.ceil((cellsY - 1) / 2));
 let boardCellsRep = [];
@@ -51,7 +52,7 @@ function GameBoard() {
     this.numCells = this.numCellsX * this.numcellsY;
 }
 
-GameBoard.prototype.initBoard = function(){
+GameBoard.prototype.initBoard = function () {
     this.boardCellsRep.length = 0;
     for (let i = 0; i < numCells; i++) {
         this.boardCellsRep.push(true);
@@ -75,7 +76,6 @@ function Game(startTime, initialGameSpeed, initialSnakeLength, startPos) {
     this.food;
 
     this.initializeGame();
-    this.gameLoop();
 }
 
 Game.prototype.initializeGame = function () {
@@ -86,8 +86,7 @@ Game.prototype.initializeGame = function () {
     }
     this.score = 0;
     this.playerSnake = new Snake(0, -1, 'rgb(0,255,255)', this.initialSnakeLength, this.startPos);
-    this.food = new food(this.getNewFoodPos());
-    isPaused = false;
+    this.food = new food(this.getNewFoodPos()); 
 }
 
 Game.prototype.gameLoop = function () {
@@ -103,21 +102,20 @@ Game.prototype.gameLoop = function () {
         this.detectCollisions();
         this.nextUpdate = curTime + this.gameSpeed;
     }
-
-    if (!isPaused) {
+   
+    if (gameState === gameStates.running) {
         requestAnimationFrame(this.boundLoop);
     }
+    
 }
 
 Game.prototype.detectCollisions = function () {
     if (this.playerSnake.segments[0].x < 0 || this.playerSnake.segments[0].x >= cellsX || this.playerSnake.segments[0].y < 0 || this.playerSnake.segments[0].y >= cellsY) {
         openGameoverPopup("(You hit the wall)");
-        //alert("GAME OVER. (You hit the wall)")
     }
     for (let i = 1; i < this.playerSnake.segments.length; i++) {
         if (this.playerSnake.segments[0].x == this.playerSnake.segments[i].x && this.playerSnake.segments[0].y == this.playerSnake.segments[i].y) {
-            openGameoverPopup("(You ate your own dang self)");
-            //alert("GAME OVER. (You ate your own dang self");
+            openGameoverPopup("(You ate yourself)");
         }
     }
     if (this.playerSnake.segments[0].x == this.food.position.x && this.playerSnake.segments[0].y == this.food.position.y) {
@@ -147,8 +145,8 @@ Game.prototype.getNewFoodPos = function () {
     return new Vector2(randNum - (Math.floor(randNum / cellsX) * cellsX), Math.floor(randNum / cellsX));
 }
 
-Game.prototype.speedUp = function(speedStep){
-    this.gameSpeed -= this.gameSpeed * speedStep;  
+Game.prototype.speedUp = function (speedStep) {
+    this.gameSpeed -= this.gameSpeed * speedStep;
 }
 
 function Snake(xDir, yDir, color, initialLength, startPos) {
@@ -216,41 +214,68 @@ function food(position) {
 
 food.prototype.draw = function () {
     ctx.beginPath();
-    ctx.arc(this.position.x * cellSize + cellSize/2, this.position.y * cellSize + cellSize/2, cellSize/2 - 5, 0, 360);
+    ctx.arc(this.position.x * cellSize + cellSize / 2, this.position.y * cellSize + cellSize / 2, cellSize / 2 - 5, 0, 360);
     //ctx.rect(this.position.x * cellSize + 5, this.position.y * cellSize + 5, cellSize - 10, cellSize - 10);
     ctx.fillStyle = "rgb(255,0,0)";
     ctx.fill();
 }
 
-addEventListener("keydown", function (event) { //TODO: disable movement inputs when game is paused
-    switch (event.key) {
-        case "ArrowRight":
-        case "d":
-            AddInput(new Vector2(1, 0));
-            break;
-        case "ArrowLeft":
-        case "a":
-            AddInput(new Vector2(-1, 0));
-            break;
-        case "ArrowUp":
-        case "w":    
-            AddInput(new Vector2(0, -1));
-            break;
-        case "ArrowDown":
-        case "s":    
-            AddInput(new Vector2(0, 1));
-            break;
-        case " ":    
-        case "p":
-            isPaused = !isPaused;
-            if (!isPaused) {
-                gameInstance.gameLoop();
-            }
-            break;
+addEventListener("keydown", function (event) {
+    if (gameState === gameStates.pregame) {
+        //console.log("Pregame input mode");
+        closeStartGamePopup();
+    }
+    else if (gameState === gameStates.gameover) {
+        //console.log("game over input mode");
+        if (event.key === "Enter") {
+            closeGameoverPopup();
+            openStartGamePopup();
+        }
+    }
+    else if (gameState === gameStates.paused) {
+        //console.log("paused input mode");
+        if (event.key === " " || event.key === "p") {
+            document.getElementById("paused-text").style.display = "none";
+            gameState = gameStates.running;
+            gameInstance.gameLoop();
+        }
+    }
+    else {
+        //console.log("running input mode");
+        switch (event.key) {
+            
+            case "ArrowRight":
+            case "d":
+                AddInput(new Vector2(1, 0));
+                break;
+            case "ArrowLeft":
+            case "a":
+                AddInput(new Vector2(-1, 0));
+                break;
+            case "ArrowUp":
+            case "w":
+                AddInput(new Vector2(0, -1));
+                break;
+            case "ArrowDown":
+            case "s":
+                AddInput(new Vector2(0, 1));
+                break;
+            case " ":
+            case "p":
+                //isPaused = !isPaused;
+                document.getElementById("paused-text").style.display = "block";
+                //if (!isPaused) {
+                if (gameState === gameStates.running) {
+                    console.log("Pausing game...");
+                    gameState = gameStates.paused;
+                }
+                break;
+        }
     }
 })
 
-gameInstance = new Game(new Date().getTime(), 150, 4, startPos);
+//gameInstance = new Game(new Date().getTime(), 150, 4, startPos);
+openStartGamePopup();
 
 function AddInput(input) {
     if (inputQueue.length === 0 && gameInstance.playerSnake.direction.x != -input.x) {
@@ -265,22 +290,39 @@ function AddInput(input) {
     }
 }
 
-document.getElementById("play-again-btn").onclick = function(){
+document.getElementById("play-again-btn").onclick = function () {
     console.log("play again button");
-    isPaused = false;
+    //isPaused = false;
     closeGameoverPopup();
-    gameInstance = new Game(new Date().getTime(), 150, 4, startPos);
+    openStartGamePopup();
+    //gameInstance = new Game(new Date().getTime(), 150, 4, startPos);
 }
 
-function openGameoverPopup(message){
+function openGameoverPopup(message) {
     console.log("open popup");
     isPaused = true;
+    gameState = gameStates.gameover;
     document.getElementById("gameover-reason").innerText = message;
-    document.getElementById("gameover-popup").style.display  = "block"
+    document.getElementById("gameover-popup").style.display = "block"
 }
 
-function closeGameoverPopup(){
-    console.log("close popup");
+function closeGameoverPopup() {
+    console.log("close game over popup");
     document.getElementById("gameover-reason").innerText = "Who knows why?";
-    document.getElementById("gameover-popup").style.display  = "none"
+    document.getElementById("gameover-popup").style.display = "none"
+}
+
+function openStartGamePopup() {
+    gameState = gameStates.pregame;
+    document.getElementById("startgame-popup").style.display = "block";
+}
+
+function closeStartGamePopup() {
+    document.getElementById("startgame-popup").style.display = "none";
+    gameInstance = new Game(new Date().getTime(), 150, 4, startPos);
+    if (gameInstance != null) {
+        console.log("There is a game instance");
+        gameState = gameStates.running;
+        gameInstance.gameLoop();
+    }
 }

@@ -13,11 +13,7 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
   
-  /* body {
-    background-color: rgb(50,50,50);
-  } */
-  
-  h1 {
+  h1{
     font-size: 2rem;
     letter-spacing: -1px;
     margin: 0;
@@ -25,6 +21,15 @@
     right: 5px;
   
     color: white;
+    text-shadow: 0 0 4px white;
+  }
+
+  h2{
+    color: white;
+    text-shadow: 0 0 4px white;
+  }
+
+  h3{
     text-shadow: 0 0 4px white;
   }
 
@@ -36,11 +41,6 @@
   td{
     padding: 0;
   }
-
-  /* .ui-text, .length-text{
-    color: white;
-  } */
-
   
   .header{
     height: 10%;
@@ -131,6 +131,23 @@
     
   }
 
+  .centered-on-canvas{
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, 0);
+  }
+
+  .startgame-popup{
+    text-align: center;
+    max-width: 300px;
+    padding: 10px;
+    border: 5px solid rgb(255, 102, 0);
+    border-radius: 5px;
+    display: none;
+    background-color: rgba(77, 94, 124, .50);
+  }
+
   .gameover-popup{
     text-align: center;
     max-width: 300px;
@@ -138,11 +155,16 @@
     border: 5px solid rgb(255, 102, 0);
     border-radius: 5px;
     display: none;
-    position: absolute;
+    /* position: absolute;
     left: 50%;
     top: 30%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, 0); */
     background-color: rgba(77, 94, 124, .50);
+  }
+
+  .paused-text{
+    text-align: center;
+    display: none;
   }
 
   .gameover-reason{

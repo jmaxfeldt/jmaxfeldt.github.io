@@ -20,31 +20,43 @@
             <div class="left">
             </div>
 
-            <div id = "middle" class="middle">
+            <div id="middle" class="middle">
                 <div class="middle-top">
                     <table>
-                    <tr>
-                        <td class="score-text">
-                            <p id="score-text" class="ui-text">Score: 0</p>
-                        </td>
-                        <td class="input-count-text">
-                            <p id="input-text" class="ui-text">Input Queue: 0</p>
-                        </td>
-                        <td class="length-text">
-                            <p id="snake-length-text" class="ui-text">Snake Length: 5</p>
-                        </td>
-                    </tr>
-                    </table>              
+                        <tr>
+                            <td class="score-text">
+                                <p id="score-text" class="ui-text">Score: 0</p>
+                            </td>
+                            <td class="input-count-text">
+                                <p id="input-text" class="ui-text">Input Queue: 0</p>
+                            </td>
+                            <td class="length-text">
+                                <p id="snake-length-text" class="ui-text">Snake Length: 5</p>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                <div id = "canvas-container" class="canvas-container">
+                <div id="canvas-container" class="canvas-container">
                     <canvas class="main-canvas"></canvas>
-                    
-                    <div id="gameover-popup" class="gameover-popup">
+
+                    <div id="gameover-popup" class="gameover-popup centered-on-canvas">
                         <form class="popup-container">
-                            <h1>Game Over!</h1>
-                            <h3 id = "gameover-reason" class = "gameover-reason">(You ate your own dang self)</h3>                    
-                            <button type="button" id = "play-again-btn" class="btn playagainbtn">Play Again</button>
-                          </form>
+                            <h1>GAME OVER</h1>
+                            <h3 id="gameover-reason" class="gameover-reason">(You ate yourself)</h3>
+                            <button type="button" id="play-again-btn" class="btn playagainbtn">Play Again</button>
+                        </form>
+                    </div>
+
+                    <div id="startgame-popup" class="startgame-popup centered-on-canvas">
+                        <form class="popup-container">
+                            <h2>Press Any Key To Start</h2>
+                            <h3>Move with the arrow keys or WASD</h3>
+                            <h3>Press space to pause</h3>
+                        </form>
+                    </div>
+
+                    <div id="paused-text" class="paused-text centered-on-canvas">
+                        <h1>P A U S E D</h1>
                     </div>
                 </div>
                 <!-- <div class="middle-bottom">
