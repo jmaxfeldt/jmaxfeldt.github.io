@@ -28,36 +28,91 @@
                                 <p id="score-text" class="ui-text">Score: 0</p>
                             </td>
                             <td class="input-count-text">
-                                <p id="input-text" class="ui-text">Input Queue: 0</p>
+                                <p id="speed-text" class="ui-text">Speed: 0</p>
                             </td>
                             <td class="length-text">
-                                <p id="snake-length-text" class="ui-text">Snake Length: 5</p>
+                                <p id="snake-length-text" class="ui-text">Length: 0</p>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div id="canvas-container" class="canvas-container">
-                    <canvas class="main-canvas"></canvas>
+                    <canvas id="main-canvas" class="main-canvas"></canvas>
+                    <!-- <canvas id="bg-canvas" class="bg-canvas"></canvas> -->
+
+                    <div id="menu-popup" class="menu-popup centered-on-canvas">
+                        <!-- <form class="popup-container"> -->
+                            <h1 class="menu-header-text">--Settings--</h1>
+                            <div class="board-and-cell-size">
+                                <div class="menu-board-size-setting">
+                                    <p class="menu-text-p">Board Size</p>
+                                    <div>
+                                        <label for="numCellsX-input" class="menu-text-p"># X Cells:</label>
+                                        <input type="number" class="numcells-input" id="numCellsX-input" min="20" value="25">
+                                        <br>
+                                        <label for="numCellsY-input" class="menu-text-p"># Y Cells:</label>
+                                        <input type="number" class="numcells-input" id="numCellsY-input" min="20" value="20">
+                                    </div>                                 
+                                </div>
+                                <div class="menu-cell-size-setting">
+                                    <p class="menu-text-p">Cell Size</p>
+                                    
+                                    <input type="number" class="cellsize-input" id="cellsize-input" min="20" max="100" value="35">
+                                    <label for="cellsize-input" class="menu-text-p">px</label>
+                                </div>
+                            </div>
+                            <div class="bg-type-container">
+                                <h3>--Background--</h3>
+                                <div class="bg-select-container" id="bg-select-container">
+                                    <input type="radio" class="bg-radio" id="bg-solid-radio" name="bg-select"
+                                        value="solid">
+                                    <label for="bg-solid-radio">Solid</label>
+
+                                    <input type="radio" class="bg-radio" id="bg-grid-radio" name="bg-select"
+                                        value="grid">
+                                    <label for="bg-grid-radio">Grid</label>
+
+                                    <input type="radio" class="bg-radio" id="bg-checkered-radio" name="bg-select"
+                                        value="checkered" checked>
+                                    <label for="bg-checkered-radio">Checkered</label>
+                                </div>
+                            </div>
+                        <!-- </form> -->
+                    </div>
 
                     <div id="gameover-popup" class="gameover-popup centered-on-canvas">
                         <form class="popup-container">
                             <h1>GAME OVER</h1>
                             <h3 id="gameover-reason" class="gameover-reason">(You ate yourself)</h3>
-                            <button type="button" id="play-again-btn" class="btn playagainbtn">Play Again</button>
+                            <button id="play-again-btn" class="btn playagainbtn">Play Again (enter)</button>
                         </form>
                     </div>
 
                     <div id="startgame-popup" class="startgame-popup centered-on-canvas">
                         <form class="popup-container">
-                            <h2>Press Any Key To Start</h2>
+                            <h2>Press Any Key To Start*</h2>
                             <h3>Move with the arrow keys or WASD</h3>
                             <h3>Press space to pause</h3>
+                            <h5>*Any key does not include escape. Escape may cause the menu to open. Ask your doctor
+                                about escape.</h5>
                         </form>
                     </div>
 
                     <div id="paused-text" class="paused-text centered-on-canvas">
                         <h1>P A U S E D</h1>
                     </div>
+                </div>
+                <div class="middle-bottom">
+                    <table>
+                        <tr>
+                            <td class="esc-text">
+                                <p id="score-text" class="lower-ui-text">ESC = Menu</p>
+                            </td>
+                            <td class="space-text">
+                                <p id="speed-text" class="lower-ui-text">Space = Pause</p>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <!-- <div class="middle-bottom">
                     <h3 class="length-text">Snake Length: 0</h3>
@@ -72,8 +127,8 @@
     <!-- <div class="footer">
         <p class="footer-text">Footer</p>
     </div> -->
-
     <script src="main.js"></script>
+    <script src="menu.js"></script>
 </body>
 
 </html>
