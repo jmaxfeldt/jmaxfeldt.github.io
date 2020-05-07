@@ -6,6 +6,7 @@ const bmiDisplay = document.getElementById("bmi-display");
 const resetButton = document.getElementById("reset-btn");
 const imperialRadio = document.getElementById("imperial_radio");
 const metricRadio = document.getElementById("metric_radio");
+const BMIStatus = document.getElementById("bmi-status");
 
 const feetMax = 9;
 const inchMax = 108;
@@ -21,6 +22,7 @@ function reset() {
     heightInputCM.value = "";
     weightInput.value = "";
     bmiDisplay.innerText = "BMI: ";
+    BMIStatus.style.display = "none";
     // imperialRadio.checked = true;
 }
 
@@ -37,10 +39,12 @@ function CalculateImperialBMI(heightFeet, heightInches, weight) {
         weightNum = Number(weight);
         bmi = weightNum / (heightNum * heightNum) * 703;
         bmiDisplay.innerText = "BMI: " + bmi.toFixed(2);
+        DisplayBMIStatus(bmi);
     }
 }
 
 function CalculateMetricBMI(height, weight) {
+    let bmi = 0;
     let heightNum = 0;
     let weightNum = 0;
 
@@ -52,7 +56,28 @@ function CalculateMetricBMI(height, weight) {
         else {
             heightNum = Number(height);
         }
-        bmiDisplay.innerText = "BMI: " + (weightNum / (heightNum * heightNum)).toFixed(2);
+        bmi = weightNum / (heightNum * heightNum);
+        bmiDisplay.innerText = "BMI: " + bmi.toFixed(2);//(weightNum / (heightNum * heightNum)).toFixed(2);
+        DisplayBMIStatus(bmi);
+    }
+}
+
+function DisplayBMIStatus(bmi){
+    BMIStatus.style.display = "inline-block";
+    if(bmi < 18.5){
+        BMIStatus.innerText = "Underweight";
+    }
+    else if(bmi >= 18.5 && bmi < 25){
+        BMIStatus.innerText = "Normal Weight";
+    }
+    else if(bmi >= 25 && bmi < 30){
+        BMIStatus.innerText = "Overweight";
+    }
+    else if(bmi >= 30 && bmi < 40){
+        BMIStatus.innerText = "Obese";
+    }
+    else if(bmi >= 40){
+        BMIStatus.innerText = "Extremely Obese";
     }
 }
 
