@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Super Hyper Ultra BMI Calculator</title>
+    <link rel="stylesheet" href="BMI.css">
+</head>
+
+<body>
+
+    <div class="bmi_main">
+        <div class="measure_system_select">
+            <input type="radio" id="imperial_radio" name="measure_select" value="imperial" checked>
+            <label for="imperial_radio">Imperial</label>
+            <input type="radio" id="metric_radio" name="measure_select" value="metric">
+            <label for="metric_radio">Metric</label>
+        </div>
+        <hr>
+        <div class="bmi_input">
+            <label class="input_label">Height</label>
+            <input type="text" id="height-input-feet" class="heightbox" name="height" placeholder="feet">
+            <input type="text" id="height-input-inches" class="heightbox" name="height" placeholder="inches">
+            <input type="text" id="height-input-cm" class="heightbox" name="height" placeholder="M/cm" style="display:none">
+        </div>
+        <div class="bmi_input">
+            <label class="input_label">Weight</label>
+            <input type="text" id="weight-input" class="heightbox" name="weight" placeholder="lbs">
+        </div>
+        <hr>
+        <div class="bmi_output">
+            <!-- <p>BMI: </p> -->
+            <p class="bmi_display" id="bmi-display">BMI: </p>
+        </div>
+        <button id="reset-btn" class="reset_btn">Reset</button>
+    </div>
+
+
+    <script src="BMIscript.js"></script>
+</body>
+
+</html>
