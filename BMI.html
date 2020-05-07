@@ -22,13 +22,13 @@
         <hr>
         <div class="bmi_input">
             <label class="input_label">Height</label>
-            <input type="text" id="height-input-feet" class="heightbox" name="height" placeholder="feet">
-            <input type="text" id="height-input-inches" class="heightbox" name="height" placeholder="inches">
-            <input type="text" id="height-input-cm" class="heightbox" name="height" placeholder="M/cm" style="display:none">
+            <input type="number" id="height-input-feet" class="heightbox" name="height" placeholder="feet" step="1">
+            <input type="number" id="height-input-inches" class="heightbox" name="height" placeholder="inches" step=".01">
+            <input type="number" id="height-input-cm" class="heightbox" name="height" placeholder="M/cm" style="display:none" step=".01">
         </div>
         <div class="bmi_input">
             <label class="input_label">Weight</label>
-            <input type="text" id="weight-input" class="heightbox" name="weight" placeholder="lbs">
+            <input type="number" id="weight-input" class="heightbox" name="weight" placeholder="lbs" step=".01">
         </div>
         <hr>
         <div class="bmi_output">

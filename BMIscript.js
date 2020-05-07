@@ -99,10 +99,11 @@ function SetMeasureUnits() {
 }
 
 function ValidateInput(value, senderElement) {
-    if (isNaN(value)) {    
-        senderElement.value = value.slice(0, -1);
-        return false;
-    }
+    // console.log("Is this being called?  Value: " + value);
+    // if (isNaN(value) || value ==="") {    
+    //     senderElement.value = value.slice(0, -1);
+    //     return false;
+    // }
     return true;
 }
 
